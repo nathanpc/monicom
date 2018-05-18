@@ -46,5 +46,7 @@ implementation
 
 {$R *.lfm}
 
+{ TfrmMain }
+
 end.
 

@@ -1,13 +1,13 @@
 object frmMain: TfrmMain
-  Left = 776
+  Left = 1112
   Height = 288
-  Top = 263
+  Top = 287
   Width = 629
   Caption = 'monicom'
   ClientHeight = 268
   ClientWidth = 629
   Menu = mnuMain
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.2.0'
   object stbMain: TStatusBar
     Left = 0
     Height = 23
@@ -31,8 +31,12 @@ object frmMain: TfrmMain
     BorderSpacing.Top = 2
     BorderSpacing.Right = 3
     BorderSpacing.Bottom = 4
+    Font.CharSet = EASTEUROPE_CHARSET
+    ParentFont = False
     ReadOnly = True
+    ScrollBars = ssAutoVertical
     TabOrder = 2
+    WantTabs = True
   end
   object panSend: TPanel
     AnchorSideLeft.Control = Owner
