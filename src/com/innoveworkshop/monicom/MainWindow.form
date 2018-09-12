@@ -82,6 +82,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Setup"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuSelected" listener="javax.swing.event.MenuListener" parameters="javax.swing.event.MenuEvent" handler="mnuSetupMenuSelected"/>
+          </Events>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="mnuPort">
               <Properties>

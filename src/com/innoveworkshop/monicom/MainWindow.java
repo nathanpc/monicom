@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.innoveworkshop.monicom;
 
 import java.awt.event.*;
@@ -11,21 +6,55 @@ import javax.swing.*;
 import sun.security.ssl.Debug;
 
 /**
- *
- * @author nathanpc
+ * The beautiful main window of the monicom application.
+ * 
+ * @author Nathan Campos <nathan@innoveworkshop.com>
  */
 public class MainWindow extends javax.swing.JFrame {
+    private CommsHandler serial;
+
     /**
      * Creates new form MainWindow
      */
     public MainWindow(){
+        // Build the UI.
         initComponents();
+        
+        // Initialize the serial communications object.
+        this.serial = new CommsHandler();
         
         // Initialize the event handler for the combo items in the setup menu.
         initActionComboItems(grpBaudRate);
         initActionComboItems(grpParity);
         initActionComboItems(grpDataBits);
         initActionComboItems(grpStopBits);
+        
+        // Populate some menus.
+        populateSerialPortsMenu();
+    }
+    
+    /**
+     * Populates the serial ports menu.
+     */
+    private void populateSerialPortsMenu() {
+        List<String> ports = this.serial.getPorts();
+        mnuPort.removeAll();
+        
+        // Populate the menu with the available ports.
+        for (String port : ports) {
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem(port, false);
+            // TODO: Add to port menu button group.
+            mnuPort.add(item);
+        }
+        
+        // Add a separator if there are any ports available.
+        if (ports.size() > 0) {
+            mnuPort.addSeparator();
+        }
+        
+        JRadioButtonMenuItem item = new JRadioButtonMenuItem("Custom", false);
+        // TODO: Add to port menu button group.
+        mnuPort.add(item);
     }
     
     /**
@@ -206,6 +235,15 @@ public class MainWindow extends javax.swing.JFrame {
         mnuMain.add(mnuEdit);
 
         mnuSetup.setText("Setup");
+        mnuSetup.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                mnuSetupMenuSelected(evt);
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+        });
 
         mnuPort.setText("Port");
         mnuSetup.add(mnuPort);
@@ -347,6 +385,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnuSetupMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_mnuSetupMenuSelected
+        // TODO: Repopulate the ports menu, but remember the last one selected.
+        Debug.println("DEBUG", "TODO Repopulate the Ports menu.");
+    }//GEN-LAST:event_mnuSetupMenuSelected
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
