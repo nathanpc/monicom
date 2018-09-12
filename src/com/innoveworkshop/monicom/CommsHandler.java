@@ -12,12 +12,15 @@ import sun.security.ssl.Debug;
  * @author Nathan Campos <nathan@innoveworkshop.com>
  */
 public class CommsHandler {
+    private String port;
     private boolean connected;
 
     /**
      * Creates a new CommsHandler object.
      */
     public CommsHandler() {
+        this.port = null;
+        this.connected = false;
     }
     
     /**
@@ -36,6 +39,30 @@ public class CommsHandler {
      */
     public boolean isConnected() {
         return this.connected;
+    }
+    
+    /**
+     * Sets the serial port to be used if you're not connected.
+     * 
+     * @param port Serial port.
+     * @return True if the port was able to be set.
+     */
+    public boolean setPort(String port) {
+        if (!this.connected) {
+            this.port = port;
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Gets the current serial port.
+     * 
+     * @return Current serial port.
+     */
+    public String getPort() {
+        return this.port;
     }
     
     /**

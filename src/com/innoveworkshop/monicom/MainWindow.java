@@ -44,6 +44,14 @@ public class MainWindow extends javax.swing.JFrame {
         for (String port : ports) {
             JRadioButtonMenuItem item = new JRadioButtonMenuItem(port, false);
             // TODO: Add to port menu button group.
+            item.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Debug.println("PORT_SELECTED", port);
+                    serial.setPort(port);
+                }
+            });
+            
             mnuPort.add(item);
         }
         
@@ -52,8 +60,22 @@ public class MainWindow extends javax.swing.JFrame {
             mnuPort.addSeparator();
         }
         
+        // Custom port option.
         JRadioButtonMenuItem item = new JRadioButtonMenuItem("Custom", false);
         // TODO: Add to port menu button group.
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                String cport = JOptionPane.showInputDialog(null, "Serial Port",
+                        "Custom Serial Port", JOptionPane.QUESTION_MESSAGE);
+                
+                if (cport != null) {
+                    Debug.println("PORT_SELECTED", "Custom: " + cport);
+                    serial.setPort(cport);
+                }
+            }
+        });
+        
         mnuPort.add(item);
     }
     
