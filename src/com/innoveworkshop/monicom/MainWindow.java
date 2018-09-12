@@ -5,19 +5,68 @@
  */
 package com.innoveworkshop.monicom;
 
-import javax.swing.UIManager;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import sun.security.ssl.Debug;
 
 /**
  *
  * @author nathanpc
  */
 public class MainWindow extends javax.swing.JFrame {
-
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    public MainWindow(){
         initComponents();
+        
+        // Initialize the event handler for the combo items in the setup menu.
+        initActionComboItems(grpBaudRate);
+        initActionComboItems(grpParity);
+        initActionComboItems(grpDataBits);
+        initActionComboItems(grpStopBits);
+    }
+    
+    /**
+     * Gets the selected menu combo item text.
+     * 
+     * @param group ComboBox button group.
+     * @return Selected item text.
+     */
+    private String getSelectedMenuComboText(ButtonGroup group) {
+        // Loop through each element in the button group.
+        for (Enumeration<AbstractButton> items = group.getElements(); items.hasMoreElements();) {
+            AbstractButton item = items.nextElement();
+            
+            // If it is selected then return its text.
+            if (item.isSelected()) {
+                return item.getText();
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Sets the default action to be performed by a ComboBox item when its
+     * selected status changes.
+     * 
+     * @param group ComboBox button group.
+     */
+    private void initActionComboItems(ButtonGroup group) {
+        // Loop through each element in the button group.
+        for (Enumeration<AbstractButton> items = group.getElements(); items.hasMoreElements();) {
+            AbstractButton item = items.nextElement();
+
+            // Add a action listener to each one.
+            item.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Debug.println("DEBUG", getSelectedMenuComboText(group));
+                }
+            });
+        }
     }
 
     /**
@@ -299,6 +348,7 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
      * @param args the command line arguments
      */
@@ -325,7 +375,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -333,6 +383,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
     }
+    //</editor-fold>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSend;
