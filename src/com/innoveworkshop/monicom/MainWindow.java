@@ -141,6 +141,12 @@ public class MainWindow extends javax.swing.JFrame {
         chkCRLF = new javax.swing.JCheckBox();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
+        mnuNewSession = new javax.swing.JMenuItem();
+        mnuSaveOutput = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        mnuImportSetup = new javax.swing.JMenuItem();
+        mnuExportSetup = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         mnuQuit = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         mnuFind = new javax.swing.JMenuItem();
@@ -223,6 +229,24 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         mnuFile.setText("File");
+
+        mnuNewSession.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        mnuNewSession.setText("New Session");
+        mnuFile.add(mnuNewSession);
+
+        mnuSaveOutput.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSaveOutput.setText("Save Output");
+        mnuFile.add(mnuSaveOutput);
+        mnuFile.add(jSeparator4);
+
+        mnuImportSetup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        mnuImportSetup.setText("Import Port Setup");
+        mnuFile.add(mnuImportSetup);
+
+        mnuExportSetup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        mnuExportSetup.setText("Export Port Setup");
+        mnuFile.add(mnuExportSetup);
+        mnuFile.add(jSeparator5);
 
         mnuQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mnuQuit.setText("Quit");
@@ -460,6 +484,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JMenu mnuBaudRate;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate110;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate115200;
@@ -481,10 +507,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem mnuDataBits7;
     private javax.swing.JRadioButtonMenuItem mnuDataBits8;
     private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenuItem mnuExportSetup;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuItem mnuFind;
     private javax.swing.JMenu mnuHelp;
+    private javax.swing.JMenuItem mnuImportSetup;
     private javax.swing.JMenuBar mnuMain;
+    private javax.swing.JMenuItem mnuNewSession;
     private javax.swing.JMenu mnuParity;
     private javax.swing.JRadioButtonMenuItem mnuParityEven;
     private javax.swing.JRadioButtonMenuItem mnuParityMark;
@@ -494,6 +523,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuPaste;
     private javax.swing.JMenu mnuPort;
     private javax.swing.JMenuItem mnuQuit;
+    private javax.swing.JMenuItem mnuSaveOutput;
     private javax.swing.JMenuItem mnuSelectAll;
     private javax.swing.JMenu mnuSetup;
     private javax.swing.JMenu mnuStopBits;
