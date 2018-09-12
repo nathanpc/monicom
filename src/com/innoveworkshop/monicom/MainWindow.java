@@ -29,13 +29,17 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grpParity = new javax.swing.ButtonGroup();
+        grpStopBits = new javax.swing.ButtonGroup();
+        grpDataBits = new javax.swing.ButtonGroup();
+        grpBaudRate = new javax.swing.ButtonGroup();
         pnlMain = new javax.swing.JPanel();
         sclMonitor = new javax.swing.JScrollPane();
         txtMonitor = new javax.swing.JTextArea();
         txtInput = new javax.swing.JTextField();
         btSend = new javax.swing.JButton();
         chkCRLF = new javax.swing.JCheckBox();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuQuit = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
@@ -47,12 +51,36 @@ public class MainWindow extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mnuSelectAll = new javax.swing.JMenuItem();
         mnuSetup = new javax.swing.JMenu();
-        mnuPort = new javax.swing.JMenuItem();
-        mnuBaudRate = new javax.swing.JMenuItem();
-        mnuParity = new javax.swing.JMenuItem();
-        mnuDataBits = new javax.swing.JMenuItem();
-        mnuStopBits = new javax.swing.JMenuItem();
-        mnuFlowControl = new javax.swing.JMenuItem();
+        mnuPort = new javax.swing.JMenu();
+        mnuBaudRate = new javax.swing.JMenu();
+        mnuBaudRate75 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate110 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate300 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate1200 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate2400 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate4800 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate9600 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate19200 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate38400 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate57600 = new javax.swing.JRadioButtonMenuItem();
+        mnuBaudRate115200 = new javax.swing.JRadioButtonMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        mnuBaudRateCustom = new javax.swing.JRadioButtonMenuItem();
+        mnuParity = new javax.swing.JMenu();
+        mnuParityNone = new javax.swing.JRadioButtonMenuItem();
+        mnuParityOdd = new javax.swing.JRadioButtonMenuItem();
+        mnuParityEven = new javax.swing.JRadioButtonMenuItem();
+        mnuParityMark = new javax.swing.JRadioButtonMenuItem();
+        mnuParitySpace = new javax.swing.JRadioButtonMenuItem();
+        mnuDataBits = new javax.swing.JMenu();
+        mnuDataBits5 = new javax.swing.JRadioButtonMenuItem();
+        mnuDataBits6 = new javax.swing.JRadioButtonMenuItem();
+        mnuDataBits7 = new javax.swing.JRadioButtonMenuItem();
+        mnuDataBits8 = new javax.swing.JRadioButtonMenuItem();
+        mnuStopBits = new javax.swing.JMenu();
+        mnuStopBits1 = new javax.swing.JRadioButtonMenuItem();
+        mnuStopBits1_5 = new javax.swing.JRadioButtonMenuItem();
+        mnuStopBits2 = new javax.swing.JRadioButtonMenuItem();
         mnuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +128,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuQuit.setText("Quit");
         mnuFile.add(mnuQuit);
 
-        jMenuBar1.add(mnuFile);
+        mnuMain.add(mnuFile);
 
         mnuEdit.setText("Edit");
 
@@ -126,7 +154,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuSelectAll.setText("Select All");
         mnuEdit.add(mnuSelectAll);
 
-        jMenuBar1.add(mnuEdit);
+        mnuMain.add(mnuEdit);
 
         mnuSetup.setText("Setup");
 
@@ -134,26 +162,128 @@ public class MainWindow extends javax.swing.JFrame {
         mnuSetup.add(mnuPort);
 
         mnuBaudRate.setText("Baud Rate");
+
+        grpBaudRate.add(mnuBaudRate75);
+        mnuBaudRate75.setText("75");
+        mnuBaudRate.add(mnuBaudRate75);
+
+        grpBaudRate.add(mnuBaudRate110);
+        mnuBaudRate110.setText("110");
+        mnuBaudRate.add(mnuBaudRate110);
+
+        grpBaudRate.add(mnuBaudRate300);
+        mnuBaudRate300.setText("300");
+        mnuBaudRate.add(mnuBaudRate300);
+
+        grpBaudRate.add(mnuBaudRate1200);
+        mnuBaudRate1200.setText("1200");
+        mnuBaudRate.add(mnuBaudRate1200);
+
+        grpBaudRate.add(mnuBaudRate2400);
+        mnuBaudRate2400.setText("2400");
+        mnuBaudRate.add(mnuBaudRate2400);
+
+        grpBaudRate.add(mnuBaudRate4800);
+        mnuBaudRate4800.setText("4800");
+        mnuBaudRate.add(mnuBaudRate4800);
+
+        grpBaudRate.add(mnuBaudRate9600);
+        mnuBaudRate9600.setSelected(true);
+        mnuBaudRate9600.setText("9600");
+        mnuBaudRate.add(mnuBaudRate9600);
+
+        grpBaudRate.add(mnuBaudRate19200);
+        mnuBaudRate19200.setText("19200");
+        mnuBaudRate.add(mnuBaudRate19200);
+
+        grpBaudRate.add(mnuBaudRate38400);
+        mnuBaudRate38400.setText("38400");
+        mnuBaudRate.add(mnuBaudRate38400);
+
+        grpBaudRate.add(mnuBaudRate57600);
+        mnuBaudRate57600.setText("57600");
+        mnuBaudRate.add(mnuBaudRate57600);
+
+        grpBaudRate.add(mnuBaudRate115200);
+        mnuBaudRate115200.setText("115200");
+        mnuBaudRate.add(mnuBaudRate115200);
+        mnuBaudRate.add(jSeparator3);
+
+        grpBaudRate.add(mnuBaudRateCustom);
+        mnuBaudRateCustom.setText("Custom");
+        mnuBaudRate.add(mnuBaudRateCustom);
+
         mnuSetup.add(mnuBaudRate);
 
         mnuParity.setText("Parity");
+
+        grpParity.add(mnuParityNone);
+        mnuParityNone.setSelected(true);
+        mnuParityNone.setText("None (N)");
+        mnuParity.add(mnuParityNone);
+
+        grpParity.add(mnuParityOdd);
+        mnuParityOdd.setText("Odd (O)");
+        mnuParity.add(mnuParityOdd);
+
+        grpParity.add(mnuParityEven);
+        mnuParityEven.setText("Even (E)");
+        mnuParity.add(mnuParityEven);
+
+        grpParity.add(mnuParityMark);
+        mnuParityMark.setText("Mark (M)");
+        mnuParity.add(mnuParityMark);
+
+        grpParity.add(mnuParitySpace);
+        mnuParitySpace.setText("Space (S)");
+        mnuParity.add(mnuParitySpace);
+
         mnuSetup.add(mnuParity);
 
         mnuDataBits.setText("Data Bits");
+
+        grpDataBits.add(mnuDataBits5);
+        mnuDataBits5.setText("5");
+        mnuDataBits.add(mnuDataBits5);
+
+        grpDataBits.add(mnuDataBits6);
+        mnuDataBits6.setText("6");
+        mnuDataBits.add(mnuDataBits6);
+
+        grpDataBits.add(mnuDataBits7);
+        mnuDataBits7.setSelected(true);
+        mnuDataBits7.setText("7");
+        mnuDataBits.add(mnuDataBits7);
+
+        grpDataBits.add(mnuDataBits8);
+        mnuDataBits8.setText("8");
+        mnuDataBits.add(mnuDataBits8);
+
         mnuSetup.add(mnuDataBits);
 
         mnuStopBits.setText("Stop Bits");
+
+        grpStopBits.add(mnuStopBits1);
+        mnuStopBits1.setSelected(true);
+        mnuStopBits1.setText("1");
+        mnuStopBits.add(mnuStopBits1);
+
+        grpStopBits.add(mnuStopBits1_5);
+        mnuStopBits1_5.setText("1.5");
+        mnuStopBits.add(mnuStopBits1_5);
+
+        grpStopBits.add(mnuStopBits2);
+        mnuStopBits2.setText("2");
+        mnuStopBits.add(mnuStopBits2);
+
         mnuSetup.add(mnuStopBits);
 
-        mnuFlowControl.setText("Hardware Flow Control");
-        mnuSetup.add(mnuFlowControl);
-
-        jMenuBar1.add(mnuSetup);
+        mnuMain.add(mnuSetup);
 
         mnuHelp.setText("Help");
-        jMenuBar1.add(mnuHelp);
+        mnuMain.add(mnuHelp);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mnuMain);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,25 +337,53 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSend;
     private javax.swing.JCheckBox chkCRLF;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.ButtonGroup grpBaudRate;
+    private javax.swing.ButtonGroup grpDataBits;
+    private javax.swing.ButtonGroup grpParity;
+    private javax.swing.ButtonGroup grpStopBits;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JMenuItem mnuBaudRate;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JMenu mnuBaudRate;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate110;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate115200;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate1200;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate19200;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate2400;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate300;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate38400;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate4800;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate57600;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate75;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRate9600;
+    private javax.swing.JRadioButtonMenuItem mnuBaudRateCustom;
     private javax.swing.JMenuItem mnuCopy;
     private javax.swing.JMenuItem mnuCut;
-    private javax.swing.JMenuItem mnuDataBits;
+    private javax.swing.JMenu mnuDataBits;
+    private javax.swing.JRadioButtonMenuItem mnuDataBits5;
+    private javax.swing.JRadioButtonMenuItem mnuDataBits6;
+    private javax.swing.JRadioButtonMenuItem mnuDataBits7;
+    private javax.swing.JRadioButtonMenuItem mnuDataBits8;
     private javax.swing.JMenu mnuEdit;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuItem mnuFind;
-    private javax.swing.JMenuItem mnuFlowControl;
     private javax.swing.JMenu mnuHelp;
-    private javax.swing.JMenuItem mnuParity;
+    private javax.swing.JMenuBar mnuMain;
+    private javax.swing.JMenu mnuParity;
+    private javax.swing.JRadioButtonMenuItem mnuParityEven;
+    private javax.swing.JRadioButtonMenuItem mnuParityMark;
+    private javax.swing.JRadioButtonMenuItem mnuParityNone;
+    private javax.swing.JRadioButtonMenuItem mnuParityOdd;
+    private javax.swing.JRadioButtonMenuItem mnuParitySpace;
     private javax.swing.JMenuItem mnuPaste;
-    private javax.swing.JMenuItem mnuPort;
+    private javax.swing.JMenu mnuPort;
     private javax.swing.JMenuItem mnuQuit;
     private javax.swing.JMenuItem mnuSelectAll;
     private javax.swing.JMenu mnuSetup;
-    private javax.swing.JMenuItem mnuStopBits;
+    private javax.swing.JMenu mnuStopBits;
+    private javax.swing.JRadioButtonMenuItem mnuStopBits1;
+    private javax.swing.JRadioButtonMenuItem mnuStopBits1_5;
+    private javax.swing.JRadioButtonMenuItem mnuStopBits2;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JScrollPane sclMonitor;
     private javax.swing.JTextField txtInput;
