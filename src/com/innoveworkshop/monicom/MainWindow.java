@@ -25,6 +25,7 @@ public class MainWindow extends JFrame {
         
         // Build the UI and populate some menus.
         initComponents();
+        enableInput(false);
         populateSerialPortsMenu();
         
         // Close any serial connections when the window is closed.
@@ -70,7 +71,7 @@ public class MainWindow extends JFrame {
             }
         });
         
-        initActionComboItems(grpStopBits, new Runnable() {
+        initActionComboItems(grpStopBits, new Runnable () {
             @Override
             public void run() {
                 float bits = Float.valueOf(getSelectedMenuComboText(grpStopBits));
@@ -82,6 +83,9 @@ public class MainWindow extends JFrame {
         });
     }
     
+    /**
+     * Sends text from the input field to the serial port.
+     */
     private void sendText() {
         String str = txtInput.getText();
         // TODO: Build a history for recalling later.
@@ -192,6 +196,16 @@ public class MainWindow extends JFrame {
         }
         
         return null;
+    }
+    
+    /**
+     * Enables the user input field and send button.
+     * 
+     * @param enable Enable everything.
+     */
+    private void enableInput(boolean enable) {
+        txtInput.setEnabled(enable);
+        btSend.setEnabled(enable);
     }
     
     /**
@@ -320,6 +334,7 @@ public class MainWindow extends JFrame {
         mnuStopBits1_5 = new javax.swing.JRadioButtonMenuItem();
         mnuStopBits2 = new javax.swing.JRadioButtonMenuItem();
         mnuHelp = new javax.swing.JMenu();
+        mnuAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("monicom");
@@ -582,6 +597,10 @@ public class MainWindow extends JFrame {
         mnuMain.add(mnuSetup);
 
         mnuHelp.setText("Help");
+
+        mnuAbout.setText("About");
+        mnuHelp.add(mnuAbout);
+
         mnuMain.add(mnuHelp);
 
         setJMenuBar(mnuMain);
@@ -605,11 +624,17 @@ public class MainWindow extends JFrame {
     }//GEN-LAST:event_mnuSetupMenuSelected
 
     private void mnuConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConnectActionPerformed
-        serial.open("monicom", 2000, comm_reader);
+        if (serial.open("monicom", 2000, comm_reader)) {
+            enableInput(true);
+        } else {
+            JOptionPane.showConfirmDialog(null, "Unable to open serial port " + serial.getPort(), 
+                    "Error", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_mnuConnectActionPerformed
 
     private void mnuDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDisconnectActionPerformed
         serial.close();
+        enableInput(false);
     }//GEN-LAST:event_mnuDisconnectActionPerformed
 
     private void mnuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuQuitActionPerformed
@@ -673,6 +698,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JMenuItem mnuAbout;
     private javax.swing.JMenu mnuBaudRate;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate110;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate115200;

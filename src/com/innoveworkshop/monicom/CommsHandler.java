@@ -69,8 +69,9 @@ public class CommsHandler {
                 serial.addEventListener(reader);
                 serial.notifyOnDataAvailable(true);
                 
-                this.connected = true;
                 Debug.println("CONNECT", "Connected to " + port + " and everything is setup.");
+                this.connected = true;
+                return true;
             }
         } catch (NoSuchPortException | PortInUseException |
                 UnsupportedCommOperationException | IOException |
