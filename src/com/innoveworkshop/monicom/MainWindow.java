@@ -82,6 +82,27 @@ public class MainWindow extends JFrame {
         });
     }
     
+    private void sendText() {
+        String str = txtInput.getText();
+        // TODO: Build a history for recalling later.
+        
+        // Append the newline.
+        if (chkCRLF.isSelected()) {
+            str += "\r\n";
+        } else {
+            str += "\n";
+        }
+        
+        // Ecco The Dolphin mode.
+        if (chkEcho.isSelected()) {
+            txtMonitor.append(str);
+        }
+        
+        // Send and clear the input field.
+        serial.sendString(str);
+        txtInput.setText("");
+    }
+    
     /**
      * Populates the serial ports menu.
      */
@@ -313,6 +334,11 @@ public class MainWindow extends JFrame {
         sclMonitor.setViewportView(txtMonitor);
 
         btSend.setText("  Send  ");
+        btSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSendActionPerformed(evt);
+            }
+        });
 
         chkCRLF.setSelected(true);
         chkCRLF.setText("CR+LF");
@@ -590,6 +616,10 @@ public class MainWindow extends JFrame {
         serial.close();
         System.exit(0);
     }//GEN-LAST:event_mnuQuitActionPerformed
+
+    private void btSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSendActionPerformed
+        sendText();
+    }//GEN-LAST:event_btSendActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
