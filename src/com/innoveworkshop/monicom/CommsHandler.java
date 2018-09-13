@@ -21,7 +21,6 @@ public class CommsHandler {
     private int stop_bits;
     
     private boolean connected;
-    private String data;
     private SerialWriter writer;
     private Thread writer_thread;
 
@@ -52,7 +51,7 @@ public class CommsHandler {
      * @return True if it was successful.
      */
     @SuppressWarnings("CallToPrintStackTrace")
-    public boolean open(String app_name, int timeout) {
+    public boolean open(String app_name, int timeout, MainWindow.SerialReader reader) {
         try {
             // Get the communication port open.
             this.comm = CommPortIdentifier.getPortIdentifier(port).open(app_name, timeout);
@@ -73,7 +72,8 @@ public class CommsHandler {
                 writer_thread.start();
                 
                 // Create the serial reader event.
-                serial.addEventListener(new SerialReader(in));
+                reader.setInputStream(in);
+                serial.addEventListener(reader);
                 serial.notifyOnDataAvailable(true);
                 
                 writer.data = "Hello, World!";
@@ -83,6 +83,7 @@ public class CommsHandler {
                 TooManyListenersException ex) {
             Debug.println("OPEN_ERROR", ex.getMessage());
             if (Constants.DEBUG) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace();
             }
             
@@ -121,6 +122,11 @@ public class CommsHandler {
             CommPortIdentifier identifier = CommPortIdentifier.getPortIdentifier(port);
             return !identifier.isCurrentlyOwned();
         } catch (NoSuchPortException ex) {
+            if (Constants.DEBUG) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
+            
             return false;
         }
     }
@@ -341,10 +347,18 @@ public class CommsHandler {
         List<String> ports = new ArrayList();
         java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
         
+        if (Constants.DEBUG) {
+            System.out.println("List of available ports:");
+        }
+        
         // Loop through the communication ports.
         while (portEnum.hasMoreElements()) {
             CommPortIdentifier portIdentifier = portEnum.nextElement();
-            Debug.println(getPortTypeName(portIdentifier.getPortType()), portIdentifier.getName());
+            
+            if (Constants.DEBUG) {
+                System.out.println("  - " + getPortTypeName(portIdentifier.getPortType()) +
+                        ": " + portIdentifier.getName());
+            }
             
             // Append the port to the list if it is of the correct type.
             if (portIdentifier.getPortType() == type) {
@@ -379,37 +393,6 @@ public class CommsHandler {
     }
     
     /**
-     * Handles incoming data from the serial port.
-     */
-    public static class SerialReader implements SerialPortEventListener {
-        private InputStream in;
-        private byte[] buffer = new byte[1024];
-
-        public SerialReader(InputStream in) {
-            this.in = in;
-        }
-
-        @Override
-        public void serialEvent(SerialPortEvent evt) {
-            int data;
-
-            try {
-                int len = 0;
-                while ((data = in.read()) > -1) {
-                    if (data == '\n') {
-                        break;
-                    }
-                    buffer[len++] = (byte) data;
-                }
-                System.out.print(new String(buffer, 0, len));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.exit(-1);
-            }
-        }
-    }
-    
-    /**
      * Handles data being sent via the serial port.
      */
     private static class SerialWriter implements Runnable {
@@ -434,6 +417,7 @@ public class CommsHandler {
                 // Clear the data register.
                 data = null;
             } catch (IOException ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace();
                 System.exit(-1);
             }

@@ -1,5 +1,7 @@
 package com.innoveworkshop.monicom;
 
+import gnu.io.*;
+import java.io.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
@@ -11,6 +13,7 @@ import javax.swing.*;
  */
 public class MainWindow extends javax.swing.JFrame {
     private CommsHandler serial;
+    private SerialReader comm_reader;
 
     /**
      * Creates new form MainWindow
@@ -21,6 +24,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         // Initialize the serial communications object.
         this.serial = new CommsHandler();
+        this.comm_reader = new SerialReader(this);
         
         // Initialize the event handler for the combo items in the setup menu.
         initActionComboItems(grpBaudRate, new Runnable() {
@@ -90,7 +94,7 @@ public class MainWindow extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showConfirmDialog(null, "Serial port '" +
                                 port + "' not available.", "Error",
-                                JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -117,8 +121,9 @@ public class MainWindow extends javax.swing.JFrame {
                         Debug.println("PORT_SELECTED", "Custom: " + cport);
                     } else {
                         JOptionPane.showConfirmDialog(null, "Serial port '" +
-                                cport + "' not available.", "Error",
-                                JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                                cport + "' not available. Check if the RxTx binaries" + 
+                                " are in your Java library path.", "Error",
+                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -166,6 +171,37 @@ public class MainWindow extends javax.swing.JFrame {
                     callback.run();
                 }
             });
+        }
+    }
+    
+    /**
+     * Handles incoming data from the serial port.
+     */
+    public static class SerialReader implements SerialPortEventListener {
+        private MainWindow mw;
+        private InputStream in;
+
+        public SerialReader(MainWindow mw) {
+            this.mw = mw;
+        }
+        
+        public void setInputStream(InputStream in) {
+            this.in = in;
+        }
+
+        @Override
+        public void serialEvent(SerialPortEvent evt) {
+            try {
+                int data;
+                
+                while ((data = in.read()) > -1) {
+                    mw.txtMonitor.append(String.valueOf((char)data));
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+                System.exit(-1);
+            }
         }
     }
 
@@ -246,6 +282,11 @@ public class MainWindow extends javax.swing.JFrame {
         setTitle("monicom");
         setMinimumSize(new java.awt.Dimension(300, 300));
         setName("frmMain"); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -516,12 +557,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuSetupMenuSelected
 
     private void mnuConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConnectActionPerformed
-        serial.open("monicom", 2000);
+        serial.open("monicom", 2000, comm_reader);
     }//GEN-LAST:event_mnuConnectActionPerformed
 
     private void mnuDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDisconnectActionPerformed
         serial.close();
     }//GEN-LAST:event_mnuDisconnectActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        serial.close();
+    }//GEN-LAST:event_formWindowClosed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
