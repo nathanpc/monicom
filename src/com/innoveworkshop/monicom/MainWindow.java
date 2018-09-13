@@ -191,6 +191,9 @@ public class MainWindow extends javax.swing.JFrame {
         chkEcho = new javax.swing.JCheckBox();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
+        mnuConnect = new javax.swing.JMenuItem();
+        mnuDisconnect = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
         mnuNewSession = new javax.swing.JMenuItem();
         mnuSaveOutput = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -285,6 +288,25 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         mnuFile.setText("File");
+
+        mnuConnect.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        mnuConnect.setText("Connect");
+        mnuConnect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuConnectActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuConnect);
+
+        mnuDisconnect.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        mnuDisconnect.setText("Disconnect");
+        mnuDisconnect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDisconnectActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuDisconnect);
+        mnuFile.add(jSeparator6);
 
         mnuNewSession.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         mnuNewSession.setText("New Session");
@@ -493,6 +515,14 @@ public class MainWindow extends javax.swing.JFrame {
         Debug.println("DEBUG", "TODO Repopulate the Ports menu.");
     }//GEN-LAST:event_mnuSetupMenuSelected
 
+    private void mnuConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConnectActionPerformed
+        serial.open("monicom", 2000);
+    }//GEN-LAST:event_mnuConnectActionPerformed
+
+    private void mnuDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDisconnectActionPerformed
+        serial.close();
+    }//GEN-LAST:event_mnuDisconnectActionPerformed
+
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
      * @param args the command line arguments
@@ -543,6 +573,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenu mnuBaudRate;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate110;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate115200;
@@ -556,6 +587,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem mnuBaudRate75;
     private javax.swing.JRadioButtonMenuItem mnuBaudRate9600;
     private javax.swing.JRadioButtonMenuItem mnuBaudRateCustom;
+    private javax.swing.JMenuItem mnuConnect;
     private javax.swing.JMenuItem mnuCopy;
     private javax.swing.JMenuItem mnuCut;
     private javax.swing.JMenu mnuDataBits;
@@ -563,6 +595,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem mnuDataBits6;
     private javax.swing.JRadioButtonMenuItem mnuDataBits7;
     private javax.swing.JRadioButtonMenuItem mnuDataBits8;
+    private javax.swing.JMenuItem mnuDisconnect;
     private javax.swing.JMenu mnuEdit;
     private javax.swing.JMenuItem mnuExportSetup;
     private javax.swing.JMenu mnuFile;

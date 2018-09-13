@@ -1,10 +1,8 @@
 package com.innoveworkshop.monicom;
 
 import gnu.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.util.*;
 
 /**
  * A serial communication handler to easily interface the UI code with the
@@ -13,12 +11,19 @@ import java.util.logging.Logger;
  * @author Nathan Campos <nathan@innoveworkshop.com>
  */
 public class CommsHandler {
+    private CommPort comm;
+    private SerialPort serial;
+    
     private String port;
     private int baud;
     private int parity;
     private int data_bits;
     private int stop_bits;
+    
     private boolean connected;
+    private String data;
+    private SerialWriter writer;
+    private Thread writer_thread;
 
     /**
      * Creates a new CommsHandler object with the default configuration.
@@ -30,12 +35,68 @@ public class CommsHandler {
      *   - Stop Bits: 1
      */
     public CommsHandler() {
+        this.serial = null;
         this.port = null;
         this.baud = 9600;
         this.parity = SerialPort.PARITY_NONE;
         this.data_bits = SerialPort.DATABITS_8;
         this.stop_bits = SerialPort.STOPBITS_1;
         this.connected = false;
+    }
+    
+    /**
+     * Opens the serial port connection.
+     * 
+     * @param app_name Name of application making this call. Useful when resolving ownership contention.
+     * @param timeout Time in milliseconds to block waiting for port open.
+     * @return True if it was successful.
+     */
+    @SuppressWarnings("CallToPrintStackTrace")
+    public boolean open(String app_name, int timeout) {
+        try {
+            // Get the communication port open.
+            this.comm = CommPortIdentifier.getPortIdentifier(port).open(app_name, timeout);
+            
+            // Check wether it is a serial port, not a parallel one.
+            if (comm instanceof SerialPort) {
+                // Grab a serial port object and set the parameters.
+                this.serial = (SerialPort)this.comm;
+                serial.setSerialPortParams(baud, data_bits, stop_bits, parity);
+                
+                // Get the input and output streams of data.
+                InputStream in = serial.getInputStream();
+                OutputStream out = serial.getOutputStream();
+                
+                // Start a serial writer thread.
+                this.writer = new SerialWriter(out);
+                this.writer_thread = new Thread(writer);
+                writer_thread.start();
+                
+                // Create the serial reader event.
+                serial.addEventListener(new SerialReader(in));
+                serial.notifyOnDataAvailable(true);
+                
+                writer.data = "Hello, World!";
+            }
+        } catch (NoSuchPortException | PortInUseException |
+                UnsupportedCommOperationException | IOException |
+                TooManyListenersException ex) {
+            Debug.println("OPEN_ERROR", ex.getMessage());
+            if (Constants.DEBUG) {
+                ex.printStackTrace();
+            }
+            
+            return false;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Closes the serial port connection.
+     */
+    public void close() {
+        this.comm.close();
     }
     
     /**
@@ -58,7 +119,7 @@ public class CommsHandler {
     public boolean isAvailable(String port) {
         try {
             CommPortIdentifier identifier = CommPortIdentifier.getPortIdentifier(port);
-            return identifier.isCurrentlyOwned();
+            return !identifier.isCurrentlyOwned();
         } catch (NoSuchPortException ex) {
             return false;
         }
@@ -314,6 +375,68 @@ public class CommsHandler {
                 return "Serial";
             default:
                 return "Unknown";
+        }
+    }
+    
+    /**
+     * Handles incoming data from the serial port.
+     */
+    public static class SerialReader implements SerialPortEventListener {
+        private InputStream in;
+        private byte[] buffer = new byte[1024];
+
+        public SerialReader(InputStream in) {
+            this.in = in;
+        }
+
+        @Override
+        public void serialEvent(SerialPortEvent evt) {
+            int data;
+
+            try {
+                int len = 0;
+                while ((data = in.read()) > -1) {
+                    if (data == '\n') {
+                        break;
+                    }
+                    buffer[len++] = (byte) data;
+                }
+                System.out.print(new String(buffer, 0, len));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.exit(-1);
+            }
+        }
+    }
+    
+    /**
+     * Handles data being sent via the serial port.
+     */
+    private static class SerialWriter implements Runnable {
+        OutputStream out;
+        public String data;
+
+        public SerialWriter(OutputStream out) {
+            this.out = out;
+            this.data = null;
+        }
+
+        @Override
+        public void run() {
+            try {
+                // Wait for data to be sent.
+                while (data == null) {}
+                
+                // Write data to the serial port.
+                Writer w = new OutputStreamWriter(out, "UTF-8");
+                w.write(data);
+                
+                // Clear the data register.
+                data = null;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.exit(-1);
+            }
         }
     }
 }
