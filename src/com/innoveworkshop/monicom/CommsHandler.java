@@ -3,6 +3,8 @@ package com.innoveworkshop.monicom;
 import gnu.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A serial communication handler to easily interface the UI code with the
@@ -48,6 +50,21 @@ public class CommsHandler {
     }
     
     /**
+     * Checks if a serial port is currently available.
+     * 
+     * @param port Serial port.
+     * @return True if it exists and is not currently in use.
+     */
+    public boolean isAvailable(String port) {
+        try {
+            CommPortIdentifier identifier = CommPortIdentifier.getPortIdentifier(port);
+            return identifier.isCurrentlyOwned();
+        } catch (NoSuchPortException ex) {
+            return false;
+        }
+    }
+    
+    /**
      * Lists the ports in the system.
      * 
      * @return List of ports.
@@ -72,7 +89,7 @@ public class CommsHandler {
      * @return True if the port was able to be set.
      */
     public boolean setPort(String port) {
-        if (!this.connected) {
+        if (!this.connected && isAvailable(port)) {
             this.port = port;
             return true;
         }

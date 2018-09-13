@@ -87,6 +87,10 @@ public class MainWindow extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent evt) {
                     if (serial.setPort(port)) {
                         Debug.println("PORT_SELECTED", port);
+                    } else {
+                        JOptionPane.showConfirmDialog(null, "Serial port '" +
+                                port + "' not available.", "Error",
+                                JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -111,6 +115,10 @@ public class MainWindow extends javax.swing.JFrame {
                 if (cport != null) {
                     if (serial.setPort(cport)) {
                         Debug.println("PORT_SELECTED", "Custom: " + cport);
+                    } else {
+                        JOptionPane.showConfirmDialog(null, "Serial port '" +
+                                cport + "' not available.", "Error",
+                                JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
