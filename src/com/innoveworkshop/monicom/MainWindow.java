@@ -121,9 +121,10 @@ public class MainWindow extends javax.swing.JFrame {
                         Debug.println("PORT_SELECTED", "Custom: " + cport);
                     } else {
                         JOptionPane.showConfirmDialog(null, "Serial port '" +
-                                cport + "' not available. Check if the RxTx binaries" + 
-                                " are in your Java library path.", "Error",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                                cport + "' not available.\n\nCheck if the RxTx " + 
+                                "binaries are in your Java library path.\nIf You're " +
+                                "using Linux try this: https://stackoverflow.com/a/35931352/126353", 
+                                "Error", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -290,6 +291,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+        txtMonitor.setEditable(false);
         txtMonitor.setColumns(20);
         txtMonitor.setRows(5);
         sclMonitor.setViewportView(txtMonitor);
@@ -369,6 +371,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         mnuQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mnuQuit.setText("Quit");
+        mnuQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuQuitActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuQuit);
 
         mnuMain.add(mnuFile);
@@ -553,7 +560,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void mnuSetupMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_mnuSetupMenuSelected
         // TODO: Repopulate the ports menu, but remember the last one selected.
-        Debug.println("DEBUG", "TODO Repopulate the Ports menu.");
+        Debug.println("TODO", "Repopulate the Poserial.close();rts menu.");
     }//GEN-LAST:event_mnuSetupMenuSelected
 
     private void mnuConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConnectActionPerformed
@@ -567,6 +574,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         serial.close();
     }//GEN-LAST:event_formWindowClosed
+
+    private void mnuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuQuitActionPerformed
+        serial.close();
+        System.exit(0);
+    }//GEN-LAST:event_mnuQuitActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**

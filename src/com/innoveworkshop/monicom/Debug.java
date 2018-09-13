@@ -14,7 +14,7 @@ public class Debug {
      */
     public static void println(String tag, String message) {
         if (Constants.DEBUG) {
-            System.out.println(tag + ": " + message);
+            System.out.println("[" + tag + "] " + message);
         }
     }
 }

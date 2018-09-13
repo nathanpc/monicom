@@ -76,6 +76,7 @@ public class CommsHandler {
                 serial.addEventListener(reader);
                 serial.notifyOnDataAvailable(true);
                 
+                Debug.println("CONNECT", "Connected to " + port + " and everything is setup.");
                 writer.data = "Hello, World!";
             }
         } catch (NoSuchPortException | PortInUseException |
@@ -98,6 +99,7 @@ public class CommsHandler {
      */
     public void close() {
         this.comm.close();
+        Debug.println("DISCONNECT", "Port closed.");
     }
     
     /**
@@ -347,18 +349,12 @@ public class CommsHandler {
         List<String> ports = new ArrayList();
         java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
         
-        if (Constants.DEBUG) {
-            System.out.println("List of available ports:");
-        }
-        
         // Loop through the communication ports.
         while (portEnum.hasMoreElements()) {
             CommPortIdentifier portIdentifier = portEnum.nextElement();
             
-            if (Constants.DEBUG) {
-                System.out.println("  - " + getPortTypeName(portIdentifier.getPortType()) +
-                        ": " + portIdentifier.getName());
-            }
+            Debug.println("PORT_LIST", getPortTypeName(portIdentifier.getPortType()) +
+                    ": " + portIdentifier.getName());
             
             // Append the port to the list if it is of the correct type.
             if (portIdentifier.getPortType() == type) {
