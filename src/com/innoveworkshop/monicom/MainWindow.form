@@ -307,7 +307,6 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="grpDataBits"/>
                     </Property>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="7"/>
                   </Properties>
                 </MenuItem>
@@ -316,6 +315,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="grpDataBits"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="8"/>
                   </Properties>
                 </MenuItem>
@@ -416,22 +416,27 @@
               <Group type="102" attributes="0">
                   <Component id="txtInput" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="chkEcho" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="chkCRLF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btSend" min="-2" max="-2" attributes="0"/>
               </Group>
-              <Component id="sclMonitor" pref="426" max="32767" attributes="0"/>
+              <Component id="sclMonitor" pref="556" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="sclMonitor" pref="238" max="32767" attributes="0"/>
+                  <Component id="sclMonitor" pref="272" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="txtInput" max="32767" attributes="0"/>
                       <Component id="btSend" alignment="0" max="32767" attributes="0"/>
-                      <Component id="chkCRLF" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="chkCRLF" alignment="3" max="32767" attributes="0"/>
+                          <Component id="chkEcho" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -457,13 +462,18 @@
         </Component>
         <Component class="javax.swing.JButton" name="btSend">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Send"/>
+            <Property name="text" type="java.lang.String" value="  Send  "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkCRLF">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="CR+LF"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkEcho">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Echo"/>
           </Properties>
         </Component>
       </SubComponents>

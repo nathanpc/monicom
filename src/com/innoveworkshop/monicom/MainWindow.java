@@ -3,7 +3,6 @@ package com.innoveworkshop.monicom;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import sun.security.ssl.Debug;
 
 /**
  * The beautiful main window of the monicom application.
@@ -139,6 +138,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtInput = new javax.swing.JTextField();
         btSend = new javax.swing.JButton();
         chkCRLF = new javax.swing.JCheckBox();
+        chkEcho = new javax.swing.JCheckBox();
         mnuMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuNewSession = new javax.swing.JMenuItem();
@@ -200,10 +200,12 @@ public class MainWindow extends javax.swing.JFrame {
         txtMonitor.setRows(5);
         sclMonitor.setViewportView(txtMonitor);
 
-        btSend.setText("Send");
+        btSend.setText("  Send  ");
 
         chkCRLF.setSelected(true);
         chkCRLF.setText("CR+LF");
+
+        chkEcho.setText("Echo");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
@@ -212,20 +214,24 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addComponent(txtInput)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkEcho)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkCRLF)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btSend))
-            .addComponent(sclMonitor, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+            .addComponent(sclMonitor, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addComponent(sclMonitor, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                .addComponent(sclMonitor, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtInput)
                     .addComponent(btSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chkCRLF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(chkCRLF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chkEcho))))
         );
 
         mnuFile.setText("File");
@@ -384,11 +390,11 @@ public class MainWindow extends javax.swing.JFrame {
         mnuDataBits.add(mnuDataBits6);
 
         grpDataBits.add(mnuDataBits7);
-        mnuDataBits7.setSelected(true);
         mnuDataBits7.setText("7");
         mnuDataBits.add(mnuDataBits7);
 
         grpDataBits.add(mnuDataBits8);
+        mnuDataBits8.setSelected(true);
         mnuDataBits8.setText("8");
         mnuDataBits.add(mnuDataBits8);
 
@@ -477,6 +483,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSend;
     private javax.swing.JCheckBox chkCRLF;
+    private javax.swing.JCheckBox chkEcho;
     private javax.swing.ButtonGroup grpBaudRate;
     private javax.swing.ButtonGroup grpDataBits;
     private javax.swing.ButtonGroup grpParity;

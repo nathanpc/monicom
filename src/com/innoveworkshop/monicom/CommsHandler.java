@@ -3,7 +3,6 @@ package com.innoveworkshop.monicom;
 import gnu.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import sun.security.ssl.Debug;
 
 /**
  * A serial communication handler to easily interface the UI code with the
