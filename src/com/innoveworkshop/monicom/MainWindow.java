@@ -299,7 +299,6 @@ public class MainWindow extends JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnuCut = new javax.swing.JMenuItem();
         mnuCopy = new javax.swing.JMenuItem();
-        mnuPaste = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mnuSelectAll = new javax.swing.JMenuItem();
         mnuSetup = new javax.swing.JMenu();
@@ -410,6 +409,11 @@ public class MainWindow extends JFrame {
 
         mnuNewSession.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         mnuNewSession.setText("New Session");
+        mnuNewSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuNewSessionActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuNewSession);
 
         mnuSaveOutput.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -446,19 +450,30 @@ public class MainWindow extends JFrame {
 
         mnuCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         mnuCut.setText("Cut");
+        mnuCut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCutActionPerformed(evt);
+            }
+        });
         mnuEdit.add(mnuCut);
 
         mnuCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         mnuCopy.setText("Copy");
+        mnuCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCopyActionPerformed(evt);
+            }
+        });
         mnuEdit.add(mnuCopy);
-
-        mnuPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        mnuPaste.setText("Paste");
-        mnuEdit.add(mnuPaste);
         mnuEdit.add(jSeparator2);
 
         mnuSelectAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mnuSelectAll.setText("Select All");
+        mnuSelectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSelectAllActionPerformed(evt);
+            }
+        });
         mnuEdit.add(mnuSelectAll);
 
         mnuMain.add(mnuEdit);
@@ -646,6 +661,27 @@ public class MainWindow extends JFrame {
         sendText();
     }//GEN-LAST:event_btSendActionPerformed
 
+    private void mnuCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCutActionPerformed
+        txtMonitor.cut();
+    }//GEN-LAST:event_mnuCutActionPerformed
+
+    private void mnuCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCopyActionPerformed
+        txtMonitor.copy();
+    }//GEN-LAST:event_mnuCopyActionPerformed
+
+    private void mnuSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSelectAllActionPerformed
+        txtMonitor.selectAll();
+    }//GEN-LAST:event_mnuSelectAllActionPerformed
+
+    private void mnuNewSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNewSessionActionPerformed
+        serial.close();
+        enableInput(false);
+        
+        this.serial = new CommsHandler();
+        this.comm_reader = new SerialReader(this);
+        populateSerialPortsMenu();
+    }//GEN-LAST:event_mnuNewSessionActionPerformed
+
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
      * @param args the command line arguments
@@ -735,7 +771,6 @@ public class MainWindow extends JFrame {
     private javax.swing.JRadioButtonMenuItem mnuParityNone;
     private javax.swing.JRadioButtonMenuItem mnuParityOdd;
     private javax.swing.JRadioButtonMenuItem mnuParitySpace;
-    private javax.swing.JMenuItem mnuPaste;
     private javax.swing.JMenu mnuPort;
     private javax.swing.JMenuItem mnuQuit;
     private javax.swing.JMenuItem mnuSaveOutput;
