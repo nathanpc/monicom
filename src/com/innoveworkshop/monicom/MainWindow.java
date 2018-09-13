@@ -11,20 +11,30 @@ import javax.swing.*;
  * 
  * @author Nathan Campos <nathan@innoveworkshop.com>
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainWindow extends JFrame {
     private CommsHandler serial;
     private SerialReader comm_reader;
 
     /**
      * Creates new form MainWindow
      */
-    public MainWindow(){
-        // Build the UI.
-        initComponents();
-        
+    public MainWindow() {
         // Initialize the serial communications object.
         this.serial = new CommsHandler();
         this.comm_reader = new SerialReader(this);
+        
+        // Build the UI and populate some menus.
+        initComponents();
+        populateSerialPortsMenu();
+        
+        // Close any serial connections when the window is closed.
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                mnuQuitActionPerformed(null);
+            }
+        });
         
         // Initialize the event handler for the combo items in the setup menu.
         initActionComboItems(grpBaudRate, new Runnable() {
@@ -70,22 +80,21 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         });
-        
-        // Populate some menus.
-        populateSerialPortsMenu();
     }
     
     /**
      * Populates the serial ports menu.
      */
     private void populateSerialPortsMenu() {
+        // Grab the selected port, get new list of serial ports and clear the menu.
+        String sel_port = getSelectedMenuComboText(grpPorts);
         List<String> ports = this.serial.getPorts();
         mnuPort.removeAll();
         
         // Populate the menu with the available ports.
         for (String port : ports) {
             JRadioButtonMenuItem item = new JRadioButtonMenuItem(port, false);
-            // TODO: Add to port menu button group.
+            grpPorts.add(item);
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -99,6 +108,12 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             });
             
+            // Check if this was the previously selected port.
+            if (port.equals(sel_port)) {
+                item.setSelected(true);
+                serial.setPort(port);
+            }
+            
             mnuPort.add(item);
         }
         
@@ -109,7 +124,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         // Custom port option.
         JRadioButtonMenuItem item = new JRadioButtonMenuItem("Custom", false);
-        // TODO: Add to port menu button group.
+        grpPorts.add(item);
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -129,6 +144,11 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         });
+        
+        // Check if this was the previously selected port.
+        if ("Custom".equals(sel_port)) {
+            item.setSelected(true);
+        }
         
         mnuPort.add(item);
     }
@@ -219,6 +239,7 @@ public class MainWindow extends javax.swing.JFrame {
         grpStopBits = new javax.swing.ButtonGroup();
         grpDataBits = new javax.swing.ButtonGroup();
         grpBaudRate = new javax.swing.ButtonGroup();
+        grpPorts = new javax.swing.ButtonGroup();
         pnlMain = new javax.swing.JPanel();
         sclMonitor = new javax.swing.JScrollPane();
         txtMonitor = new javax.swing.JTextArea();
@@ -283,11 +304,6 @@ public class MainWindow extends javax.swing.JFrame {
         setTitle("monicom");
         setMinimumSize(new java.awt.Dimension(300, 300));
         setName("frmMain"); // NOI18N
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
         pnlMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -559,8 +575,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuSetupMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_mnuSetupMenuSelected
-        // TODO: Repopulate the ports menu, but remember the last one selected.
-        Debug.println("TODO", "Repopulate the Poserial.close();rts menu.");
+        populateSerialPortsMenu();
     }//GEN-LAST:event_mnuSetupMenuSelected
 
     private void mnuConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConnectActionPerformed
@@ -570,10 +585,6 @@ public class MainWindow extends javax.swing.JFrame {
     private void mnuDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDisconnectActionPerformed
         serial.close();
     }//GEN-LAST:event_mnuDisconnectActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        serial.close();
-    }//GEN-LAST:event_formWindowClosed
 
     private void mnuQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuQuitActionPerformed
         serial.close();
@@ -624,6 +635,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.ButtonGroup grpBaudRate;
     private javax.swing.ButtonGroup grpDataBits;
     private javax.swing.ButtonGroup grpParity;
+    private javax.swing.ButtonGroup grpPorts;
     private javax.swing.ButtonGroup grpStopBits;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;

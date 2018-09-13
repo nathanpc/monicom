@@ -3,8 +3,6 @@ package com.innoveworkshop.monicom;
 import gnu.io.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A serial communication handler to easily interface the UI code with the
