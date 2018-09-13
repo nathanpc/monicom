@@ -23,10 +23,49 @@ public class MainWindow extends javax.swing.JFrame {
         this.serial = new CommsHandler();
         
         // Initialize the event handler for the combo items in the setup menu.
-        initActionComboItems(grpBaudRate);
-        initActionComboItems(grpParity);
-        initActionComboItems(grpDataBits);
-        initActionComboItems(grpStopBits);
+        initActionComboItems(grpBaudRate, new Runnable() {
+            @Override
+            public void run() {
+                int baud = Integer.parseInt(getSelectedMenuComboText(grpBaudRate));
+                
+                if (serial.setBaudRate(baud)) {
+                    Debug.println("BAUD_SELECTED", Integer.toString(baud));
+                }
+            }
+        });
+        
+        initActionComboItems(grpParity, new Runnable() {
+            @Override
+            public void run() {
+                char parity = getSelectedMenuComboText(grpParity).charAt(0);
+                
+                if (serial.setParity(parity)) {
+                    Debug.println("PARITY_SELECTED", String.valueOf(parity));
+                }
+            }
+        });
+        
+        initActionComboItems(grpDataBits, new Runnable() {
+            @Override
+            public void run() {
+                int bits = Integer.parseInt(getSelectedMenuComboText(grpDataBits));
+                
+                if (serial.setDataBits(bits)) {
+                    Debug.println("DATABITS_SELECTED", Integer.toString(bits));
+                }
+            }
+        });
+        
+        initActionComboItems(grpStopBits, new Runnable() {
+            @Override
+            public void run() {
+                float bits = Float.valueOf(getSelectedMenuComboText(grpStopBits));
+                
+                if (serial.setStopBits(bits)) {
+                    Debug.println("STOPBITS_SELECTED", String.valueOf(bits));
+                }
+            }
+        });
         
         // Populate some menus.
         populateSerialPortsMenu();
@@ -46,8 +85,9 @@ public class MainWindow extends javax.swing.JFrame {
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    Debug.println("PORT_SELECTED", port);
-                    serial.setPort(port);
+                    if (serial.setPort(port)) {
+                        Debug.println("PORT_SELECTED", port);
+                    }
                 }
             });
             
@@ -69,8 +109,9 @@ public class MainWindow extends javax.swing.JFrame {
                         "Custom Serial Port", JOptionPane.QUESTION_MESSAGE);
                 
                 if (cport != null) {
-                    Debug.println("PORT_SELECTED", "Custom: " + cport);
-                    serial.setPort(cport);
+                    if (serial.setPort(cport)) {
+                        Debug.println("PORT_SELECTED", "Custom: " + cport);
+                    }
                 }
             }
         });
@@ -103,8 +144,9 @@ public class MainWindow extends javax.swing.JFrame {
      * selected status changes.
      * 
      * @param group ComboBox button group.
+     * @param callback What action will be taken when the menu item is clicked.
      */
-    private void initActionComboItems(ButtonGroup group) {
+    private void initActionComboItems(ButtonGroup group, Runnable callback) {
         // Loop through each element in the button group.
         for (Enumeration<AbstractButton> items = group.getElements(); items.hasMoreElements();) {
             AbstractButton item = items.nextElement();
@@ -113,7 +155,7 @@ public class MainWindow extends javax.swing.JFrame {
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    Debug.println("DEBUG", getSelectedMenuComboText(group));
+                    callback.run();
                 }
             });
         }
