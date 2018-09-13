@@ -347,6 +347,12 @@ public class MainWindow extends JFrame {
         txtMonitor.setRows(5);
         sclMonitor.setViewportView(txtMonitor);
 
+        txtInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInputActionPerformed(evt);
+            }
+        });
+
         btSend.setText("  Send  ");
         btSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -681,6 +687,10 @@ public class MainWindow extends JFrame {
         this.comm_reader = new SerialReader(this);
         populateSerialPortsMenu();
     }//GEN-LAST:event_mnuNewSessionActionPerformed
+
+    private void txtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputActionPerformed
+        sendText();
+    }//GEN-LAST:event_txtInputActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
