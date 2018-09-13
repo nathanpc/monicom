@@ -3,6 +3,8 @@ package com.innoveworkshop.monicom;
 import gnu.io.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A serial communication handler to easily interface the UI code with the
@@ -13,16 +15,14 @@ import java.util.*;
 public class CommsHandler {
     private CommPort comm;
     private SerialPort serial;
+    private OutputStream output;
     
     private String port;
     private int baud;
     private int parity;
     private int data_bits;
     private int stop_bits;
-    
     private boolean connected;
-    private SerialWriter writer;
-    private Thread writer_thread;
 
     /**
      * Creates a new CommsHandler object with the default configuration.
@@ -64,33 +64,28 @@ public class CommsHandler {
                 
                 // Get the input and output streams of data.
                 InputStream in = serial.getInputStream();
-                OutputStream out = serial.getOutputStream();
-                
-                // Start a serial writer thread.
-                this.writer = new SerialWriter(out);
-                this.writer_thread = new Thread(writer);
-                writer_thread.start();
+                this.output = serial.getOutputStream();
                 
                 // Create the serial reader event.
                 reader.setInputStream(in);
                 serial.addEventListener(reader);
                 serial.notifyOnDataAvailable(true);
                 
+                this.connected = true;
                 Debug.println("CONNECT", "Connected to " + port + " and everything is setup.");
-                writer.data = "Hello, World!";
             }
         } catch (NoSuchPortException | PortInUseException |
                 UnsupportedCommOperationException | IOException |
                 TooManyListenersException ex) {
             Debug.println("OPEN_ERROR", ex.getMessage());
+            
             if (Constants.DEBUG) {
                 System.out.println(ex.getMessage());
                 ex.printStackTrace();
             }
-            
-            return false;
         }
         
+        this.connected = false;
         return false;
     }
     
@@ -98,8 +93,40 @@ public class CommsHandler {
      * Closes the serial port connection.
      */
     public void close() {
-        this.comm.close();
-        Debug.println("DISCONNECT", "Port closed.");
+        if (this.comm != null) {
+            this.comm.close();
+            Debug.println("DISCONNECT", "Port closed.");
+        }
+        
+        this.connected = false;
+    }
+    
+    /**
+     * Writes a string to the serial port.
+     * Default encoding: UTF-8
+     * 
+     * @param str String to be written.
+     */
+    public void sendString(String str) {
+        sendString(str, "UTF-8");
+    }
+    
+    /**
+     * Writes a string to the serial port with a given encoding.
+     * 
+     * @param str String to be written.
+     * @param encoding Encoding to be used.
+     */
+    public void sendString(String str, String encoding) {
+        if (connected) {
+            try {
+                output.write(str.getBytes(encoding));
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+                System.exit(-1);
+            }
+        }
     }
     
     /**
@@ -385,38 +412,6 @@ public class CommsHandler {
                 return "Serial";
             default:
                 return "Unknown";
-        }
-    }
-    
-    /**
-     * Handles data being sent via the serial port.
-     */
-    private static class SerialWriter implements Runnable {
-        OutputStream out;
-        public String data;
-
-        public SerialWriter(OutputStream out) {
-            this.out = out;
-            this.data = null;
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Wait for data to be sent.
-                while (data == null) {}
-                
-                // Write data to the serial port.
-                Writer w = new OutputStreamWriter(out, "UTF-8");
-                w.write(data);
-                
-                // Clear the data register.
-                data = null;
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-                System.exit(-1);
-            }
         }
     }
 }
