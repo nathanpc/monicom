@@ -275,6 +275,7 @@ public class MainWindow extends JFrame {
         grpDataBits = new javax.swing.ButtonGroup();
         grpBaudRate = new javax.swing.ButtonGroup();
         grpPorts = new javax.swing.ButtonGroup();
+        dlgFile = new javax.swing.JFileChooser();
         pnlMain = new javax.swing.JPanel();
         sclMonitor = new javax.swing.JScrollPane();
         txtMonitor = new javax.swing.JTextArea();
@@ -334,6 +335,8 @@ public class MainWindow extends JFrame {
         mnuStopBits2 = new javax.swing.JRadioButtonMenuItem();
         mnuHelp = new javax.swing.JMenu();
         mnuAbout = new javax.swing.JMenuItem();
+
+        dlgFile.setDialogTitle("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("monicom");
@@ -424,6 +427,11 @@ public class MainWindow extends JFrame {
 
         mnuSaveOutput.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mnuSaveOutput.setText("Save Output");
+        mnuSaveOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSaveOutputActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuSaveOutput);
         mnuFile.add(jSeparator4);
 
@@ -692,6 +700,22 @@ public class MainWindow extends JFrame {
         sendText();
     }//GEN-LAST:event_txtInputActionPerformed
 
+    private void mnuSaveOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveOutputActionPerformed
+        // Setup the dialog.
+        dlgFile.setDialogType(JFileChooser.SAVE_DIALOG);
+        dlgFile.setDialogTitle("Save monitor output to file");
+        
+        // Open the dialog and get the file.
+        if (dlgFile.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File output = dlgFile.getSelectedFile();
+            
+            Debug.println("SAVE_OUTPUT", output.toString());
+            if (output.canWrite()) {
+                Debug.println("SAVE_ERROR", "Unable to write to file.");
+            }
+        }
+    }//GEN-LAST:event_mnuSaveOutputActionPerformed
+
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
      * @param args the command line arguments
@@ -733,6 +757,7 @@ public class MainWindow extends JFrame {
     private javax.swing.JButton btSend;
     private javax.swing.JCheckBox chkCRLF;
     private javax.swing.JCheckBox chkEcho;
+    private javax.swing.JFileChooser dlgFile;
     private javax.swing.ButtonGroup grpBaudRate;
     private javax.swing.ButtonGroup grpDataBits;
     private javax.swing.ButtonGroup grpParity;
