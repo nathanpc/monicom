@@ -38,3 +38,10 @@ sudo apt install librxtx-java
 sudo cp -r /usr/lib/jni/librxtx* /usr/lib/
 ```
 
+
+## Screenshot
+
+This is a Java application, but it will try to get the native theme if possible so that it doesn't have that "java app look" even on Linux.
+
+![Screenshot](https://i.imgur.com/6WrIgEF.png)
+
