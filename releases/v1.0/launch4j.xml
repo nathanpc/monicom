@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>/home/nathanpc/dev/netbeans/monicom/releases/v1.0/monicom.jar</jar>
+  <outfile>/home/nathanpc/dev/netbeans/monicom/releases/v1.0/monicom.exe</outfile>
+  <errTitle>This application requires Java</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>https://github.com/nathanpc/monicom</supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>/home/nathanpc/dev/netbeans/monicom/releases/v1.0/icon.ico</icon>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>v1.0</txtFileVersion>
+    <fileDescription>A basic and straight forward and universal serial monitor</fileDescription>
+    <copyright>Nathan Campos</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>v1.0</txtProductVersion>
+    <productName>monicom</productName>
+    <companyName>Innove Workshop</companyName>
+    <internalName>monicom</internalName>
+    <originalFilename>monicom.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

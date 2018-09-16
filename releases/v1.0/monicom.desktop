@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=monicom
+Version=1.0
+
+GenericName=Serial Monitor
+Comment=A basic and straight forward and universal serial monitor
+Categories=Electronics;Development;System;Java;
+Terminal=false
+
+Path=/opt/monicom/
+Exec=/opt/monicom/monicom
+Icon=/opt/monicom/icon.svg
+
