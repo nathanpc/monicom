@@ -4,8 +4,6 @@ import gnu.io.*;
 import java.io.*;
 import java.awt.event.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -128,9 +126,8 @@ public class MainWindow extends JFrame {
                     if (serial.setPort(port)) {
                         Debug.println("PORT_SELECTED", port);
                     } else {
-                        JOptionPane.showConfirmDialog(null, "Serial port '" +
-                                port + "' not available.", "Error",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                        showErrorDialog("PORT_SELECTED_ERROR", "Serial Port not Available",
+                                "Serial port '" + port + "' not available.");
                     }
                 }
             });
@@ -162,11 +159,11 @@ public class MainWindow extends JFrame {
                     if (serial.setPort(cport)) {
                         Debug.println("PORT_SELECTED", "Custom: " + cport);
                     } else {
-                        JOptionPane.showConfirmDialog(null, "Serial port '" +
+                        showErrorDialog("PORT_SELECTED_ERROR", "Serial Port not Available",
+                                "Serial port '" +
                                 cport + "' not available.\n\nCheck if the RxTx " + 
                                 "binaries are in your Java library path.\nIf You're " +
-                                "using Linux try this: https://stackoverflow.com/a/35931352/126353", 
-                                "Error", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                                "using Linux try this: https://stackoverflow.com/a/35931352/126353");
                     }
                 }
             }
@@ -208,6 +205,19 @@ public class MainWindow extends JFrame {
     private void enableInput(boolean enable) {
         txtInput.setEnabled(enable);
         btSend.setEnabled(enable);
+    }
+    
+    /**
+     * Shows an error dialog and write a debug message.
+     * 
+     * @param tag Debug tag.
+     * @param title Error dialog title.
+     * @param message Error message.
+     */
+    private void showErrorDialog(String tag, String title, String message) {
+        Debug.println(tag, message);
+        JOptionPane.showConfirmDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.ERROR_MESSAGE);
     }
     
     /**
@@ -658,8 +668,8 @@ public class MainWindow extends JFrame {
         if (serial.open("monicom", 2000, comm_reader)) {
             enableInput(true);
         } else {
-            JOptionPane.showConfirmDialog(null, "Unable to open serial port " + serial.getPort(), 
-                    "Error", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+            showErrorDialog("CONNECT_ERROR", "Connection Error",
+                    "Unable to open serial port " + serial.getPort());
         }
     }//GEN-LAST:event_mnuConnectActionPerformed
 
@@ -726,7 +736,8 @@ public class MainWindow extends JFrame {
                     writer.write(txtMonitor.getText());
                 }
             } catch (IOException ex) {
-                Debug.println("SAVE_ERROR", "Unable to write to file.");
+                showErrorDialog("SAVE_ERROR", "Save Error", "Unable to write to " +
+                        output.getAbsolutePath());
             }
         }
     }//GEN-LAST:event_mnuSaveOutputActionPerformed
