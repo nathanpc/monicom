@@ -7,6 +7,22 @@ serial monitor, more professional, but not as daunting as
 cross-platform, so you can have the same serial experience no matter which
 OS you are using.
 
+
+## Installing
+
+First of all head to the [releases page](https://github.com/nathanpc/monicom/releases) and download the latest `zip` release and unpack it.
+
+To install this program on Windows simply put it somewhere permanent like the `Program Files` folder and create a shortcut to the `monicom.exe` executable in your Start Menu.
+
+If you're running Linux just run the following commands:
+
+```bash
+sudo cp -r ~/Downloads/monicom/ /opt
+cd /usr/share/applications
+sudo ln -s /opt/monicom/monicom.desktop
+```
+
+
 ## Installing RXTX
 
 This project uses the [RXTX Java library](http://rxtx.qbang.org/wiki/index.php/Main_Page), which needs to be present in your system in order for it to work.
