@@ -1,11 +1,10 @@
 package com.innoveworkshop.monicom;
 
 import gnu.io.*;
+import java.awt.Toolkit;
 import java.io.*;
 import java.awt.event.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -29,6 +28,7 @@ public class MainWindow extends JFrame {
         initComponents();
         enableInput(false);
         populateSerialPortsMenu();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         
         // Close any serial connections when the window is closed.
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -672,6 +672,11 @@ public class MainWindow extends JFrame {
         mnuHelp.setText("Help");
 
         mnuAbout.setText("About");
+        mnuAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAboutActionPerformed(evt);
+            }
+        });
         mnuHelp.add(mnuAbout);
 
         mnuMain.add(mnuHelp);
@@ -841,6 +846,11 @@ public class MainWindow extends JFrame {
             }
         }
     }//GEN-LAST:event_mnuImportSetupActionPerformed
+
+    private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
+        AboutWindow about = new AboutWindow();
+        about.setVisible(true);
+    }//GEN-LAST:event_mnuAboutActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**

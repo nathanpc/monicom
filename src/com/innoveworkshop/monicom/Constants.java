@@ -7,4 +7,7 @@ package com.innoveworkshop.monicom;
  */
 public class Constants {
     public static final boolean DEBUG = true;
+    public static final String APP_NAME = "monicom";
+    public static final String APP_VERSION = "1.0";
+    public static final String APP_WEBSITE = "http://nathancampos.me/";
 }
