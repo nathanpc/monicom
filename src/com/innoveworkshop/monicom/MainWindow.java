@@ -238,8 +238,7 @@ public class MainWindow extends JFrame {
      */
     private void showErrorDialog(String tag, String title, String message) {
         Debug.println(tag, message);
-        JOptionPane.showConfirmDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }
     
     /**
@@ -503,6 +502,11 @@ public class MainWindow extends JFrame {
 
         mnuFind.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         mnuFind.setText("Find...");
+        mnuFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFindActionPerformed(evt);
+            }
+        });
         mnuEdit.add(mnuFind);
         mnuEdit.add(jSeparator1);
 
@@ -851,6 +855,11 @@ public class MainWindow extends JFrame {
         AboutWindow about = new AboutWindow();
         about.setVisible(true);
     }//GEN-LAST:event_mnuAboutActionPerformed
+
+    private void mnuFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFindActionPerformed
+        FindWindow find = new FindWindow(txtMonitor);
+        find.setVisible(true);
+    }//GEN-LAST:event_mnuFindActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**
