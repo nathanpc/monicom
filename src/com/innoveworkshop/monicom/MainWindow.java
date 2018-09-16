@@ -4,6 +4,8 @@ import gnu.io.*;
 import java.io.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -688,11 +690,16 @@ public class MainWindow extends JFrame {
     }//GEN-LAST:event_mnuSelectAllActionPerformed
 
     private void mnuNewSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNewSessionActionPerformed
+        // Reset everything.
         serial.close();
         enableInput(false);
         
         this.serial = new CommsHandler();
         this.comm_reader = new SerialReader(this);
+        
+        txtMonitor.setText("");
+        txtInput.setText("");
+        
         populateSerialPortsMenu();
     }//GEN-LAST:event_mnuNewSessionActionPerformed
 
@@ -708,9 +715,17 @@ public class MainWindow extends JFrame {
         // Open the dialog and get the file.
         if (dlgFile.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File output = dlgFile.getSelectedFile();
-            
             Debug.println("SAVE_OUTPUT", output.toString());
-            if (output.canWrite()) {
+            
+            try {
+                // Create the file if it doesn't exist already.
+                output.createNewFile();
+                
+                // Write to the file.
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(output))) {
+                    writer.write(txtMonitor.getText());
+                }
+            } catch (IOException ex) {
                 Debug.println("SAVE_ERROR", "Unable to write to file.");
             }
         }
