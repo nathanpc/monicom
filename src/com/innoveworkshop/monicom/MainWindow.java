@@ -4,6 +4,8 @@ import gnu.io.*;
 import java.io.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -172,6 +174,7 @@ public class MainWindow extends JFrame {
         // Check if this was the previously selected port.
         if ("Custom".equals(sel_port)) {
             item.setSelected(true);
+            item.doClick();
         }
         
         mnuPort.add(item);
@@ -195,6 +198,25 @@ public class MainWindow extends JFrame {
         }
         
         return null;
+    }
+    
+    /**
+     * Select a menu ComboBox item based in its text.
+     * 
+     * @param group ComboBox button group.
+     * @param value 
+     */
+    private void selectMenuComboItem(ButtonGroup group, String value) {
+        // Loop through each element in the button group.
+        for (Enumeration<AbstractButton> items = group.getElements(); items.hasMoreElements();) {
+            AbstractButton item = items.nextElement();
+            
+            // Check if this was the previously selected item.
+            if (value.equals(item.getText())) {
+                item.setSelected(true);
+                item.doClick();
+            }
+        }
     }
     
     /**
@@ -449,10 +471,20 @@ public class MainWindow extends JFrame {
 
         mnuImportSetup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         mnuImportSetup.setText("Import Port Setup");
+        mnuImportSetup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImportSetupActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuImportSetup);
 
         mnuExportSetup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         mnuExportSetup.setText("Export Port Setup");
+        mnuExportSetup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuExportSetupActionPerformed(evt);
+            }
+        });
         mnuFile.add(mnuExportSetup);
         mnuFile.add(jSeparator5);
 
@@ -737,10 +769,78 @@ public class MainWindow extends JFrame {
                 }
             } catch (IOException ex) {
                 showErrorDialog("SAVE_ERROR", "Save Error", "Unable to write to " +
-                        output.getAbsolutePath());
+                        output.toString());
             }
         }
     }//GEN-LAST:event_mnuSaveOutputActionPerformed
+
+    private void mnuExportSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportSetupActionPerformed
+        Properties setup = new Properties();
+        
+        // Get the state of the check boxes.
+        setup.setProperty("echo", String.valueOf(chkEcho.isSelected()));
+        setup.setProperty("crlf", String.valueOf(chkCRLF.isSelected()));
+        
+        // Get the selected port settings.
+        setup.setProperty("port", getSelectedMenuComboText(grpPorts));
+        setup.setProperty("baud_rate", getSelectedMenuComboText(grpBaudRate));
+        setup.setProperty("parity", getSelectedMenuComboText(grpParity));
+        setup.setProperty("data_bits", getSelectedMenuComboText(grpDataBits));
+        setup.setProperty("stop_bits", getSelectedMenuComboText(grpStopBits));
+        
+        // Setup the dialog.
+        dlgFile.setDialogType(JFileChooser.SAVE_DIALOG);
+        dlgFile.setDialogTitle("Export Setup");
+        
+        // Open the dialog and get the file.
+        if (dlgFile.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File output = dlgFile.getSelectedFile();
+            Debug.println("SAVE_SETUP", output.toString());
+            
+            try {
+                // Create the file if it doesn't exist already and write to the file.
+                output.createNewFile();
+                setup.store(new FileWriter(output), "monicom setup");
+            } catch (IOException ex) {
+                showErrorDialog("SAVE_ERROR", "Export Setup Error",
+                        "Unable to write to " + output.toString());
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_mnuExportSetupActionPerformed
+
+    private void mnuImportSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportSetupActionPerformed
+        // Setup the dialog.
+        dlgFile.setDialogType(JFileChooser.SAVE_DIALOG);
+        dlgFile.setDialogTitle("Import Setup");
+        
+        // Open the dialog and get the file.
+        if (dlgFile.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File input = dlgFile.getSelectedFile();
+            Debug.println("OPEN_SETUP", input.toString());
+            
+            try {
+                // Load the properties file.
+                Properties setup = new Properties();
+                setup.load(new FileInputStream(input));
+                
+                // Set the checkboxes.
+                chkEcho.setSelected(Boolean.valueOf(setup.getProperty("echo")));
+                chkCRLF.setSelected(Boolean.valueOf(setup.getProperty("crlf")));
+                
+                // Select the setup options.
+                selectMenuComboItem(grpPorts, setup.getProperty("port"));
+                selectMenuComboItem(grpBaudRate, setup.getProperty("baud_rate"));
+                selectMenuComboItem(grpParity, setup.getProperty("parity"));
+                selectMenuComboItem(grpDataBits, setup.getProperty("data_bits"));
+                selectMenuComboItem(grpStopBits, setup.getProperty("stop_bits"));
+            } catch (IOException ex) {
+                showErrorDialog("OPEN_ERROR", "Import Setup Error",
+                        "Unable to parse the selected file. Are you sure this is the right one?");
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_mnuImportSetupActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Function">
     /**

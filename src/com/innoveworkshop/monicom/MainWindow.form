@@ -79,6 +79,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Import Port Setup"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportSetupActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuExportSetup">
               <Properties>
@@ -87,6 +90,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Export Port Setup"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuExportSetupActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator5">
             </MenuItem>
